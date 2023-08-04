@@ -81,7 +81,19 @@ Deno.serve(async (request: Request) => {
     if (!slug || !url) {
       const m = html + `<h2 class="error">Error: slug and url are required</h2>`;
       console.log(`Error: slug and url are required`);
-
+      return new Response(m, {
+        status: 400,
+        headers: { "content-type": "text/html" },
+      });
+    }
+    try {
+      const urlObj = new URL(url);
+      if (!urlObj.protocol.startsWith("http")) {
+        throw new Error("url must start with http or https");
+      }
+    } catch (error) {
+      const m = html + `<h2 class="error">${error.message}</h2>`;
+      console.log(`Error: url must start with http or https`);
       return new Response(m, {
         status: 400,
         headers: { "content-type": "text/html" },
