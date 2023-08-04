@@ -1,5 +1,12 @@
 const kv = await Deno.openKv();
 
+const form = `
+  <form action="/" method="POST">
+    <input name="slug" placeholder="slug" />
+  </form>
+`
+
+
 Deno.serve(async (request: Request) => {
 
   // Create short links
@@ -11,14 +18,17 @@ Deno.serve(async (request: Request) => {
   }
 
   // Redirect short links
+
+
   const slug = request.url.split("/").pop() || "";
   const url = (await kv.get(["links", slug])).value as string;
   if (url) {
     return Response.redirect(url, 301);
   } else {
-    const m = !slug ? "Please provide a slug." : `Slug "${slug}" not found`;
+    const m = !slug ? form : `Slug "${slug}" not found`;
     return new Response(m, {
       status: 404,
+      headers: { "content-type": "text/html" },
     });
   }
 
