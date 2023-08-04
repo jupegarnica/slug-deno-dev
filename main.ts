@@ -117,13 +117,16 @@ Deno.serve(async (request: Request) => {
   }
 
   // Redirect short links
-
-
   const slug = request.url.split("/").pop() || "";
   const url = (await kv.get(["links", slug])).value as string;
+
   if (url) {
-    console.log(`Redirecting to ${url}`);
-    return Response.redirect(url, 301);
+
+    const hits = (await kv.get(["hits", slug])).value as number || 0;
+    await kv.set(["hits", slug], hits + 1 );
+    console.log(`Redirecting to ${url}.  hits: ${hits + 1}`);
+
+    return Response.redirect(url, 302);
   } else {
     const m = !slug ? html : html + `<h2 class="error">Slug "${slug}" not found</h2>`;
     return new Response(m, {
