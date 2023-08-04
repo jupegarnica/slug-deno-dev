@@ -9,24 +9,33 @@ const html = `
       border-bottom: 1px solid #ccc;
       min-width: 300px;
       max-width: 600px;
+      background: transparent;
+      color: #ccc;
     }
     form {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 1rem;
+      gap: 1.4rem;
     }
     * {
       font-family: monospace;
-
+      color: white;
+    }
+    a {
+      font-weight: bold;
     }
     body {
+      padding: 0;
+      margin: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
+      background: radial-gradient( #000, #446);;
+      color: #ccc;
     }
     .error {
       background: tomato;
@@ -37,12 +46,26 @@ const html = `
     h2 {
       color: white;
       padding: 0.5rem 1em;
+      font-weight: normal;
+      border-radius: 2px;
+
+    }
+    button {
+      font-size: 1.4rem;
+      padding: 0.5rem;
+      border: 0;
+      border-radius: 2px;
+      min-width: 300px;
+      max-width: 600px;
+      background: #446;
+      color: #ccc;
+      cursor: pointer;
     }
   </style>
   <form action="/" method="POST">
     <input name="slug" placeholder="slug" />
     <input name="url" placeholder="url" />
-    <input type="submit" value="SAVE" />
+    <button type="submit">Create short link</button>
   </form>
 `
 
